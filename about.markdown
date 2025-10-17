@@ -4,15 +4,5 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+I’m Maoting — a new postgraduate student at XJTU, majoring in Biophysics. I completed my undergraduate studies in Animal Science at JLU, where I developed a strong interest in molecular science and computational tools.My current research focuses on using nanomaterials to deliver nucleic acid-based therapeutics, exploring how smart delivery systems can improve precision medicine. Welcome to exchange ideas,Feel free to reach out: [cutyting@outlook.com](mailto:cutyting@outlook.com) 
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
