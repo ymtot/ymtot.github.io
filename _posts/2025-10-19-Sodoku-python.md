@@ -8,7 +8,7 @@ categories: Sodoku python
 
 # 基于Python的数独直观技巧实现
 
-> 很久之前写的，当时还没接受科学写作的训练
+> 很久之前写的
 
 ## 目录
 
