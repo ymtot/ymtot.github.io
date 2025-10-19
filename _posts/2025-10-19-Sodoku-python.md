@@ -1,9 +1,10 @@
 ---
 layout: post
 title:  "基于Python的数独直观技巧实现"
-date:   2025-10-19 18:08:21
-categories: [Sodoku,python]
+date:   2025-10-19 19:22:21 +0800
+categories: Sodoku python
 ---
+
 
 # 基于Python的数独直观技巧实现
 
