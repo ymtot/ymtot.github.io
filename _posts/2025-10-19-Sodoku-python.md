@@ -3,9 +3,16 @@ layout: post
 title:  "基于Python的数独直观技巧实现"
 date:   2025-10-19 19:22:21 +0800
 categories: Sodoku python
+mermaid: true
 ---
 > [!NOTE]
 > 测试警示框
+
+
+|表头|表头|表头|
+| :----|:----:|----:|
+|1|2|3|
+
 
 # 基于Python的数独直观技巧实现
 
@@ -289,16 +296,16 @@ class Sodoku:
 
 对每一宫扫描宫里的所有空位，统计出所有候选数，以及每个数出现的次数，当一个数出现的次数为1时可以摒除，位置出数，宫摒除完成。行列排除同理。
 
-```flow
-st=>start: Start
-oop=>operation: 将某一个宫的所有候选数切出来
-					扁平化统计次数
-cond=>condition: 当有次数为1时
-op=>operation: 找出这个数是谁的，出数
-end=>end: End
-st->oop->cond
-cond(yes)->op->end
-cond(no)->end
+```mermaid
+flowchart LR
+    st([Start])
+    oop[将某一个宫的所有候选数切出来<br/>扁平化统计次数]
+    cond{当有次数为1时}
+    op[找出这个数是谁的，出数]
+    ed([End])
+    st --> oop --> cond
+    cond -->|yes| op --> ed
+    cond -->|no| ed
 ```
 
 #### 唯余法实现
@@ -315,40 +322,41 @@ cond(no)->end
 
 ​		对每一宫遍历宫里所有空位，统计出所有候选数，以及每个数出现的次数，当一个数出现的次数为2时，进一步操作返回出这两个位置坐标，判断这两个是否时同行列，如果同行列，返回改行列号，对该行列进行统计如果不能进一步删数，则无效，如果可以删数，有效并输出。
 
-```flow
-st=>start: Start
-oop=>operation: 将某一个宫的所有候选数切出来
-					扁平化统计次数
-cond=>condition: 如果有次数为2
-op=>operation: 找出这两格
-cond1=>condition: 判断这两格是否同行列
-cond2=>condition: 判断是否有效
-op1=>operation: 该区块有效，先输出
-op2=>operation: 该区块无效
-end=>end: End
-st(right)->oop(right)->cond(right)
-cond(yes)->op->cond1
-cond1(yes)(right)->cond2
-cond2(yes)(right)->op1(right)->end
-cond2(no)->op2(right)->end
-cond1(no)->end
-cond(no)->end
+```mermaid
+flowchart LR
+    st([Start])
+    oop[将某一个宫的所有候选数切出来<br/>扁平化统计次数]
+    cond{如果有次数为2}
+    op[找出这两格]
+    cond1{判断这两格是否同行列}
+    cond2{判断是否有效}
+    op1[该区块有效，先输出]
+    op2[该区块无效]
+    ed([End])
+    st --> oop --> cond
+    cond -->|yes| op --> cond1
+    cond1 -->|yes| cond2
+    cond2 -->|yes| op1 --> ed
+    cond2 -->|no| op2 --> ed
+    cond1 -->|no| ed
+    cond -->|no| ed
 ```
 
 #### 区块和技巧组合实现
 
 ##### 区块+排除
 
-```flow
-st=>start: Start
-op=>operation: 前提：排除法已经不能出数了
-oop=>operation: 根据有效区块对盘进行删数处理
-cond=>condition: 排除法可出数
-op1=>operation: 说明"区块+排除"技巧实现
-end=>end: End
-st(right)->op(right)->oop->cond
-cond(yes)->op1->end
-cond(no)->end
+```mermaid
+flowchart LR
+    st([Start])
+    op[前提：排除法已经不能出数了]
+    oop[根据有效区块对盘进行删数处理]
+    cond{排除法可出数}
+    op1[说明"区块+排除"技巧实现]
+    ed([End])
+    st --> op --> oop --> cond
+    cond -->|yes| op1 --> ed
+    cond -->|no| ed
 ```
 
 
@@ -359,15 +367,16 @@ cond(no)->end
 
 主要是联系普通人做题的思路，以宫排除为主（因为好观察），当数字填入较多时考虑唯余法，遇到填不下去时再考虑区块。
 
-```flow
-st=>start: Start
-op=>operation: 宫排除（达到一定次数）
-op1=>operation: 根据现有盘一次 唯余
-op2=>operation: 根据现有盘一次 行列排除
-op3=>operation: 如果上面所有操作都没有出数,区块技巧一次
-op4=>operation: 如果还是没有出数，完成盘面,结束
-end=>end: End
-st(right)->op(right)->op1(right)->op2->op3->op4->end
+```mermaid
+flowchart LR
+    st([Start])
+    op[宫排除（达到一定次数）]
+    op1[根据现有盘一次 唯余]
+    op2[根据现有盘一次 行列排除]
+    op3[如果上面所有操作都没有出数<br/>区块技巧一次]
+    op4[如果还是没有出数<br/>完成盘面,结束]
+    ed([End])
+    st --> op --> op1 --> op2 --> op3 --> op4 --> ed
 ```
 
 
@@ -390,6 +399,8 @@ $$
   0&  0&  0&  1&  1&  0& 1\\
 \end{pmatrix}
 $$
+
+
 算法主要是基于**交叉十字循环双向链**的数据结构来完成的。
 
 #### 数独问题转化为精准覆盖问题[^3]
@@ -550,13 +561,15 @@ $$
 
 对于$（i，j）$填的数字为$k$可以知道
 
-$$9(i-1)+j$$
+$ 9(i-1)+j $
 
-$$9(j-1)+k+81$$
+$ 9(j-1)+k+81 $
 
-$$9(i-1)+k+81*2$$
+$ 9(i-1)+k+81*2 $
 
-$$9(B((i,j))-1)+k+81*3$$
+$
+ 9(B((i,j))-1)+k+81*3 
+$
 
 列为1其余都为0，这是可计算的。
 

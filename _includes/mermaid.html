@@ -1,0 +1,90 @@
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+
+        // 处理 .language-flow 类的代码块
+        document.querySelectorAll('code.language-flow').forEach(function(element) {
+            const flowContent = element.textContent;
+            // 将 flow 语法转换为 mermaid 语法
+            const mermaidContent = convertFlowToMermaid(flowContent);
+            
+            // 创建新的div用于渲染
+            const div = document.createElement('div');
+            div.className = 'mermaid';
+            div.textContent = mermaidContent;
+            // 替换原来的code元素
+            element.parentNode.replaceWith(div);
+        });
+
+        // 处理 .language-mermaid 类的代码块
+        document.querySelectorAll('code.language-mermaid').forEach(function(element) {
+            const div = document.createElement('div');
+            div.className = 'mermaid';
+            div.textContent = element.textContent;
+            element.parentNode.replaceWith(div);
+        });
+
+        // 初始化所有mermaid图表
+        mermaid.init(undefined, '.mermaid');
+    });
+
+    // 转换 flow 语法到 mermaid 语法
+    function convertFlowToMermaid(flowContent) {
+        let mermaidContent = 'flowchart LR\n';
+        const lines = flowContent.trim().split('\n');
+        const nodes = new Map();
+        
+        // 第一遍：解析节点定义
+        lines.forEach(line => {
+            if (line.includes('=>')) {
+                const [id, rest] = line.split('=>');
+                const [type, label] = rest.split(': ');
+                let shape = '';
+                switch(type.trim()) {
+                    case 'start':
+                        shape = '([' + label.trim() + '])';
+                        break;
+                    case 'end':
+                        shape = '([' + label.trim() + '])';
+                        break;
+                    case 'operation':
+                        shape = '[' + label.trim() + ']';
+                        break;
+                    case 'condition':
+                        shape = '{' + label.trim() + '}';
+                        break;
+                    default:
+                        shape = '[' + label.trim() + ']';
+                }
+                nodes.set(id.trim(), shape);
+            }
+        });
+
+        // 第二遍：添加节点定义到 mermaid 内容
+        nodes.forEach((shape, id) => {
+            mermaidContent += `    ${id}${shape}\n`;
+        });
+
+        // 第三遍：处理连接
+        lines.forEach(line => {
+            if (line.includes('->')) {
+                let connection = line.trim();
+                // 处理方向和条件
+                connection = connection.replace(/\((yes|no|right|left)\)/g, '-->|$1|');
+                mermaidContent += '    ' + connection + '\n';
+            }
+        });
+
+        return mermaidContent;
+    }
+</script>
+</script>
+</script>

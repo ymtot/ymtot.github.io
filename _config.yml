@@ -33,7 +33,20 @@ plugins:
   - jekyll-feed
   - jekyll-gfm-admonitions
 
-markdown: GFM # GitHub Flavored Markdown
+markdown: kramdown # Markdown processor
+
+sass:
+  style: 
+  load_paths:
+    - _sass
+    
+mermaid: true
+
+kramdown:
+  math_engine: null # Disable math rendering
+
+
+#markdown: GFM # GitHub Flavored Markdown
 #highlighter: rouge # Syntax highlighter
 #math_engine: mathjax # Math rendering engine
 
