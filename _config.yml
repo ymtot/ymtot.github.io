@@ -31,6 +31,12 @@ github_username:  ymtot
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-gfm-admonitions
+
+markdown: GFM # GitHub Flavored Markdown
+#highlighter: rouge # Syntax highlighter
+#math_engine: mathjax # Math rendering engine
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.

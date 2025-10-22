@@ -4,7 +4,8 @@ title:  "基于Python的数独直观技巧实现"
 date:   2025-10-19 19:22:21 +0800
 categories: Sodoku python
 ---
-
+> [!NOTE]
+> 测试警示框
 
 # 基于Python的数独直观技巧实现
 
