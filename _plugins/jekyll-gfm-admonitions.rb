@@ -126,7 +126,7 @@ module JekyllGFMAdmonitions
 
     GFMAdmonitionConverter.admonition_pages.each do |page|
       Jekyll.logger.debug 'GFMA:', "Appending admonition style to '#{page.path}'."
-      css = File.read(File.expand_path('../assets/admonitions.css', __dir__))
+      css = File.read(File.expand_path('./admonitions.css', __dir__))
 
       page.output.gsub!(%r{<head>(.*?)</head>}m) do |match|
         head = Regexp.last_match(1)
