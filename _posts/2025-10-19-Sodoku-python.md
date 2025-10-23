@@ -352,7 +352,7 @@ flowchart LR
     op[前提：排除法已经不能出数了]
     oop[根据有效区块对盘进行删数处理]
     cond{排除法可出数}
-    op1[说明"区块+排除"技巧实现]
+    op1[说明**区块+排除**技巧实现]
     ed([End])
     st --> op --> oop --> cond
     cond -->|yes| op1 --> ed

@@ -30,14 +30,9 @@ github_username:  ymtot
 # Build settings
 theme: minima
 plugins:
-  - jekyll-remote-theme
   - jekyll-feed
-  - jekyll-gfm-admonitions
   
-repository: Helveg/jekyll-gfm-admonitions # For jekyll-gfm-admonitions plugin
-
-
-
+  
 markdown: kramdown # Markdown processor
 
 sass:
@@ -50,23 +45,6 @@ mermaid: true
 kramdown:
   math_engine: null # Disable math rendering
 
-exclude: 
-  - "**/*.ts" # Exclude source code files!
-  - "**/*.js"
-  - "*.ts" # Also those in the root directory!
-  - "*.js"
-  - "*.json" # Don't forget about assets!
-  - node_modules/ # And large vendored directories
-  # And these ignore all the artifacts the build produces:
-  - .sass-cache/
-  - .jekyll-cache/
-  - gemfiles/
-  - Gemfile
-  - Gemfile.lock
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
 
 
 #markdown: GFM # GitHub Flavored Markdown

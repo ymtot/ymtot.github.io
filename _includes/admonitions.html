@@ -1,0 +1,116 @@
+<script>
+(function(){
+  // Simple client-side admonition converter for GFM-style blocks like:
+  // > [!NOTE] Optional title\n> body
+  // It finds blockquote elements that start with [!TYPE] and converts them
+  // into div.markdown-alert elements using classes from admonitions.css
+
+  // Map types to simple SVG icons (tiny inline svg). These mirror the Ruby plugin icons.
+  const ICONS = {
+    important: '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.865.146a.75.75 0 00-1.73 0l-.776 6.25H1.75a.75.75 0 000 1.5h4.61l-.776 6.25a.75.75 0 001.73 0l.776-6.25h4.61a.75.75 0 000-1.5h-4.61L8.865.146z"></path></svg>',
+    note: '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM8.93 6.588c-.1-.364-.37-.588-.93-.588-.64 0-1.07.406-1.07 1.02 0 .547.353.876.962 1.097.607.22.683.374.683.66 0 .356-.27.602-.862.602-.572 0-.92-.302-1.02-.908a.75.75 0 00-1.478.314c.224 1.06 1.07 1.96 2.498 1.96 1.49 0 2.39-.99 2.39-2.16 0-1.07-.418-1.5-1.19-1.87-.48-.24-.628-.35-.628-.71 0-.224.11-.436.162-.59zM8 3.5a.75.75 0 11-.001-1.5A.75.75 0 018 3.5z"/></svg>',
+    tip: '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8.5 2a3.5 3.5 0 00-2.45 5.86L6 9h4l-.05-.14A3.5 3.5 0 008.5 2zM6 13.5a2 2 0 104 0H6z"/></svg>',
+    warning: '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M7.002 1.566a1 1 0 011.996 0l5 11A1 1 0 0113.002 14H2.998a1 1 0 01-.996-1.434l5-11zM8 6.75a.75.75 0 00-.75.75v2.5a.75.75 0 001.5 0v-2.5A.75.75 0 008 6.75zm0 6.5a.85.85 0 100-1.7.85.85 0 000 1.7z"/></svg>',
+    caution: '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM7.25 4.75h1.5v5h-1.5v-5zM8 11a1 1 0 110-2 1 1 0 010 2z"/></svg>'
+  };
+
+  function injectCSS(cssText){
+    if (document.getElementById('admonition-inline-css')) return;
+    const style = document.createElement('style');
+    style.id = 'admonition-inline-css';
+    style.textContent = cssText;
+    document.head.appendChild(style);
+  }
+
+  // Tiny minified contents of admonitions.css - keep in sync if you update the file
+  const CSS_STRING = `.markdown-alert{padding:.5rem 1rem;margin-bottom:1rem;color:inherit;border-left:.25em solid #30363d}.markdown-alert>:first-child{margin-top:0}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert .markdown-alert-title{display:flex;font-weight:500;align-items:center;line-height:1}.markdown-alert svg{margin-right:.5rem!important}.markdown-alert svg path{fill:currentColor}.markdown-alert.markdown-alert-note{border-left-color:#4493f8}.markdown-alert.markdown-alert-note .markdown-alert-title{color:#4493f8}.markdown-alert.markdown-alert-important{border-left-color:#ab7df8}.markdown-alert.markdown-alert-important .markdown-alert-title{color:#ab7df8}.markdown-alert.markdown-alert-warning{border-left-color:#9e6a03}.markdown-alert.markdown-alert-warning .markdown-alert-title{color:#d29922}.markdown-alert.markdown-alert-tip{border-left-color:#238636}.markdown-alert.markdown-alert-tip .markdown-alert-title{color:#3fb950}.markdown-alert.markdown-alert-caution{border-left-color:#da3633}.markdown-alert.markdown-alert-caution .markdown-alert-title{color:#f85149}`;
+
+  function parseAdmonitionBlock(blockquote){
+    // Extract text content lines, remove leading > if present
+    const lines = Array.from(blockquote.childNodes).map(node => {
+      if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+      return node.textContent || '';
+    }).join('\n').split('\n').map(l => l.replace(/^\s*>\s?/, ''));
+
+    if (!lines.length) return null;
+
+    // First line should be like: [!NOTE] Optional title
+    const first = lines[0].trim();
+    const m = first.match(/^\[!([A-Z]+)\]\s*(.*)$/);
+    if (!m) return null;
+
+    const typeRaw = m[1].toLowerCase();
+    const type = (['note','important','warning','tip','caution'].includes(typeRaw) ? typeRaw : 'note');
+    const titleText = m[2] && m[2].trim() ? m[2].trim() : type.charAt(0).toUpperCase() + type.slice(1);
+
+    // The rest of lines are the body; join and convert to HTML via simple markdown fallback
+    const bodyLines = lines.slice(1);
+    const body = bodyLines.join('\n').trim();
+
+    return {type, titleText, body};
+  }
+
+  function simpleMarkdownToHTML(md){
+    // Very small subset: inline code, bold, italics, links, and paragraphs
+    if (!md) return '';
+    let html = md
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    // paragraphs
+    html = html.split(/\n{2,}/).map(p => '<p>' + p.trim().replace(/\n/g, '<br/>') + '</p>').join('');
+    return html;
+  }
+
+  function convertAll(){
+    const blockquotes = Array.from(document.querySelectorAll('blockquote'));
+    let converted = 0;
+    blockquotes.forEach(bq => {
+      const parsed = parseAdmonitionBlock(bq);
+      if (!parsed) return;
+      const {type, titleText, body} = parsed;
+
+      // Create container
+      const container = document.createElement('div');
+      container.className = 'markdown-alert markdown-alert-' + type;
+
+      const title = document.createElement('p');
+      title.className = 'markdown-alert-title';
+      title.innerHTML = (ICONS[type] || '') + ' ' + titleText;
+
+      container.appendChild(title);
+
+      // Body: convert using existing markdown converter if available
+      let bodyHTML = '';
+      // If the page provided a rendered HTML inside blockquote (common for Jekyll), prefer that
+      if (bq.querySelector('p') || bq.querySelector('ul') || bq.querySelector('ol')) {
+        bodyHTML = Array.from(bq.childNodes).map(n => n.outerHTML || n.textContent).join('');
+        // Remove the first line (the [!TYPE] line) if present in text form
+        bodyHTML = bodyHTML.replace(/^\s*\[!([A-Z]+)\].*?<br\/?\s*>?/i, '');
+      } else {
+        bodyHTML = simpleMarkdownToHTML(body);
+      }
+
+      // Append body
+      const wrapper = document.createElement('div');
+      wrapper.className = 'markdown-alert-body';
+      wrapper.innerHTML = bodyHTML;
+      container.appendChild(wrapper);
+
+      // Replace blockquote with container
+      bq.parentNode.replaceChild(container, bq);
+      converted++;
+    });
+
+    return converted;
+  }
+
+  // Inject CSS and run conversion
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ injectCSS(CSS_STRING); convertAll(); });
+  } else {
+    injectCSS(CSS_STRING); convertAll();
+  }
+})();
+</script>

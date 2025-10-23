@@ -1,0 +1,18 @@
+<script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Configure AnchorJS
+    const anchors = new AnchorJS();
+    anchors.options = {
+      placement: 'left',
+      visible: false,
+      class: 'anchorjs-link'
+    };
+
+    // Apply to headings within post content only (mirrors previous include usage)
+    anchors.add('.post-content h1, .post-content h2, .post-content h3');
+
+    // If you want anchors to always be visible, set:
+    // document.querySelectorAll('.anchorjs-link').forEach(el=>el.style.opacity = 1);
+  });
+</script>
