@@ -15,5 +15,6 @@
   {% if page.mermaid %}
       {% include mermaid.html %}
   {% endif %}
-  {% include admonitions.html %}
+  <link rel="stylesheet" href="{{ "/assets/css/gfm-admonitions.css" | relative_url }}">
+  <script src="{{ "/assets/js/gfm-admonitions.js" | relative_url }}"></script>
 </head>
