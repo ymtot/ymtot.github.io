@@ -17,4 +17,7 @@
   {% endif %}
   <link rel="stylesheet" href="{{ "/assets/css/gfm-admonitions.css" | relative_url }}">
   <script src="{{ "/assets/js/gfm-admonitions.js" | relative_url }}"></script>
+  {% if page.chartjs %}
+    {%- include chartjs.html -%}
+  {% endif %}
 </head>
