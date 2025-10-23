@@ -34,7 +34,7 @@ plugins:
   - jekyll-feed
   - jekyll-gfm-admonitions
   
-  
+repository: Helveg/jekyll-gfm-admonitions  
 
 
 
