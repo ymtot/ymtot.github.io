@@ -30,9 +30,13 @@ github_username:  ymtot
 # Build settings
 theme: minima
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-gfm-admonitions
-  - jekyll-optional-front-matter
+  
+  
+
+
 
 markdown: kramdown # Markdown processor
 
