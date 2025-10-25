@@ -35,6 +35,8 @@ plugins:
   
 markdown: kramdown # Markdown processor
 toc_levels: 1……6 # Table of Contents levels
+math_engine: katex # Math rendering engine
+
 
 sass:
   style: 
