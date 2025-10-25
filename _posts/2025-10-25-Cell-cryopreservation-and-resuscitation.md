@@ -1,3 +1,11 @@
+---
+layout: post
+title:  "Cell cryopreservation and resuscitation"
+date:   2025-10-25 23:04:21 +0800
+categories: Experiment
+mermaid: true
+---
+
 ## Cell cryopreservation and resuscitation
 
 ### Purpose
