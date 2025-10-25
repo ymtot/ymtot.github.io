@@ -43,8 +43,7 @@ sass:
     
 mermaid: true
 
-kramdown:
-  math_engine: null # Disable math rendering
+
 
 
 
