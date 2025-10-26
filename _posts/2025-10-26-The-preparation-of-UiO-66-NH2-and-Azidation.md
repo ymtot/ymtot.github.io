@@ -70,11 +70,6 @@ graph TD
 
 泊洛沙姆（Poloxamer）泊洛沙姆（Poloxamer）商品名为普兰尼克（Pluronic），是一类新型的高分子非离子表面活性剂，分子式是HO·(C2H4O)m·(C3H6O)n·H，为聚氧乙烯聚氧丙烯醚嵌段共聚物。Pluronic® F-127具有温敏性的三嵌段共聚物，在低温下为液体、在体温附近形成凝胶，广泛用于药物递送和细胞培养。Pluronic® P-123是亲油性较强的三嵌段共聚物，主要用作高效乳化剂和模板剂，常用于制备介孔材料和工业清洗。
 
-#### 3.TCPP
-
-Zr-NH2-BDC/TCPP (TCPP@UiO-66-NH2) was synthesized depending on the literature [[45](https://www.sciencedirect.com/science/article/pii/S0039914023007129#bib45)]. 120 mg ZrCl4, 4.58 mL acetic acid, 96 mg NH2-BDC, and 15 mg TCPP were dissolved in 32 mL DMF. The purple liquid was sonicated for 30 min and then put into the Teflon-lined autoclave at 120 °C for 1 day. Then, the solid products were cleaned with DMF and EtOH and dried at 60 °C. The purple solid product was collected.
-
-  
 
 #### Azidation
 
