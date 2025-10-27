@@ -42,10 +42,6 @@ When the proliferation of cultured cells reaches a certain density, **density in
 
 7. Pour out the supernatant of the centrifuged cell solution, gently tap the cell pellet to disperse it, first add 1mL of culture medium and mix well, then add 1mL of culture medium to dilute and mix thoroughly;
 
-> [!NOTE]
->
->  Step 8 not essential
-
 8. Count, draw 20 μ L of cell fluid, add 20 μ L of trypan blue staining solution, mix evenly, draw 20 μ L of the mixture and add it to the cell counting plate for counting. Calculate the required volume of cell fluid based on the seeding density;
      For example, if the concentration of live cells is 300w/mL and the dilution volume of cells is 2mL, the total number of cells is 300 × 2=600w. To achieve a cell concentration of 8w/cm2 in the T25 cell culture bottle, 200w of cells need to be aspirated, and the volume of aspirated cell solution is approximately 0.667mL (667 $μ$L): 200 ÷ 600 × 2;
 
